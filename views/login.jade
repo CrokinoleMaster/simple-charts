@@ -6,6 +6,10 @@ block content
             .col-lg-offset-4.col-lg-4
                 h1 Login Page
                 br
+                .alert.alert-info
+                    p you can use the example account to see examples
+                    p username: example
+                    p password: password
                 form(role='form', action="/login",method="post", style='max-width: 300px;')
                     .form-group
                         input.form-control(type='text', name="username", placeholder='Enter Username')
