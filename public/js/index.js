@@ -1,4 +1,11 @@
-function createChart(data, div) {
+function info(div, text, type) {
+  div.empty()
+    .removeClass()
+    .addClass('alert '+type)
+    .html(text);
+}
+
+function barChart(data, div) {
   var dataset = new CSV(data).parse();
   console.log(dataset);
   if (!dataset[1]){
@@ -63,10 +70,11 @@ function createChart(data, div) {
 
 $(function(){
   var $newBtn = $('#new-button');
+  var $removeBtn = $('.remove-btn');
   var $newData = $('#new-data');
   var $newName = $('#new-name');
   var $info = $('#info');
-  var $createBtn = $('.createChart');
+  var $barBtn = $('.barChart');
   var $chart = $('#chart');
   var $chartInfo = $('#chart-info');
   var $csvResult = $('#csv-result');
@@ -78,9 +86,7 @@ $(function(){
     $info.removeClass().empty();
     e.preventDefault();
     if ($newData.val().length === 0 || $newName.val().length === 0){
-      $info.removeClass()
-           .html('you left something blank!')
-           .addClass('alert alert-danger');
+      info($info, 'you left something blank!', 'alert-danger');
     } else {
       parsedData = new CSV($newData.val()).parse();
       console.log(parsedData);
@@ -89,16 +95,12 @@ $(function(){
           el1.forEach(function(el2){
             if (isNaN(el2)){
               valid = false;
-              $info.removeClass()
-                   .html('something is wrong, even I can tell')
-                   .addClass('alert alert-danger');
+              info($info, 'something is wrong, even I can tell', 'alert-danger');
             }
           });
         } else if (isNaN(el1)){
           valid = false;
-          $info.removeClass()
-               .html('something is wrong, even I can tell')
-               .addClass('alert alert-danger');
+          info($info, 'something is wrong, even I can tell', 'alert-danger');
         }
       });
       if (valid === true){
@@ -109,33 +111,61 @@ $(function(){
           dataType: 'json',
           success: function(d){
             if (d.error){
-              $info.removeClass();
-              $info.html(d.error).addClass('alert alert-danger');
+              info($info,
+                d.error,
+                'alert-danger');
             } else {
               console.log(d);
-              $info.removeClass();
-              $info.html('success').addClass('alert alert-success');
+              info($info,
+                'success',
+                'alert-success');
               $(location).attr('href','/');
             }
           },
           error: function(e){
-            $info.removeClass();
-            $info.html(e.responseText).addClass('alert alert-danger');
+            info($info,
+              e.responseText,
+              'alert-danger');
           }
         });
       }
     }
   });
 
-  $createBtn.on('click', function(e) {
+  $removeBtn.on('click', function(e){
     e.preventDefault();
     var $this = $(this);
-    var name = $this.prev().html();
+    var name = $this.parent().find('p').html();
+    info($chartInfo, 'Deleting...', 'alert-info');
+    $.ajax({
+      type: 'DELETE',
+      url: '/projects/'+name,
+      success: function(res){
+        if (res.error){
+          info($chartInfo,
+            res.error,
+            'alert-danger');
+        } else {
+          info($chartInfo, 'success', 'alert-success');
+          $(location).attr('href', '/');
+        }
+      },
+      error: function(err){
+        info($chartInfo,
+          err.responseText,
+          'alert-danger');
+      }
+    });
+  });
+
+  $barBtn.on('click', function(e) {
+    e.preventDefault();
+    var $this = $(this);
+    var name = $this.parent().find('p').html();
     var data = null;
-    $chartInfo.empty()
-              .removeClass()
-              .addClass('alert alert-info')
-              .html('Loading...');
+    info($chartInfo,
+      'Loading...',
+      'alert-info');
     $chart.empty();
     $csvResult.empty();
     $parsedResult.empty();
@@ -143,21 +173,20 @@ $(function(){
       type: 'GET',
       url: '/projects/data/'+name,
       success: function(res){
-        createChart(res.data, '#chart');
+        barChart(res.data, '#chart');
         $csvResult.html(res.data);
         $chartInfo.empty().removeClass();
         $parsedResult.html(JSON.stringify(new CSV(res.data).parse()));
         if (res.error){
-          $chartInfo.empty()
-                    .removeClass()
-                    .addClass('alert alert-danger')
-                    .html(res.error);
+          info($chartInfo,
+            res.error,
+            'alert-danger');
         }
       },
       error: function(err){
-        $chartInfo.empty();
-        $chartInfo.removeClass();
-        $chartInfo.html(err.responseText.addClass('alert alert-danger'));
+        info($chartInfo,
+          err.responseText,
+          'alert-danger');
       }
     });
   });

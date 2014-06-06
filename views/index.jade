@@ -18,7 +18,8 @@ block content
                                 each data in charts
                                     li.list-group-item
                                         p=data.name
-                                        button.createChart.btn-primary bar chart
+                                        button.barChart.btn-primary bar chart
+                                        button.remove-btn.btn-primary remove
                             if (charts.length === 0)
                                 p No Data
                 .col-md-6

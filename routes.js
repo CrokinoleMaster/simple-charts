@@ -96,7 +96,7 @@ module.exports = function (app) {
     if (req.user){
       Chart.findOne({ username: req.user.username, name: req.params.name}, function(err, docs) {
         if (err) {
-          res.send(500, {erro: err.toString()});
+          res.send(500, {error: err.toString()});
         } else {
           res.json({data: docs.data});
         }
@@ -105,6 +105,21 @@ module.exports = function (app) {
       res.json({error: 'not logged in'});
     }
   });
+
+  app.del('/projects/:name', function(req, res) {
+    if (req.user){
+      Chart.findOne({ username: req.user.username, name: req.params.name}, function(err, docs) {
+        if (err) {
+          res.send(500, {error: err.toString()});
+        } else {
+          docs.remove();
+          res.send(200);
+        }
+      });
+    } else {
+      res.json({error: 'not logged in'});
+    }
+  })
 
 
 };
