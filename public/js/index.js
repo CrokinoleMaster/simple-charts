@@ -201,6 +201,7 @@ $(function(){
     var $this = $(this);
     var name = $this.parent().find('p').html();
     var data = null;
+    var errored = false;
     if ($this.hasClass('barChart') || $this.hasClass('pieChart')) {
       info($chartInfo,
         'Loading...',
@@ -213,15 +214,29 @@ $(function(){
         url: '/projects/data/'+name,
         success: function(res){
           if ($this.hasClass('barChart')) {
-            barChart(res.data, '#chart');
+            try {
+              barChart(res.data, '#chart');
+            }
+            catch(e){
+              info($chartInfo, 'data is really not right. check the parsed dataset', 'alert-danger');
+              errored = true;
+            }
             $parsedResult.html(JSON.stringify(new CSV(res.data).parse()));
           } else if ($this.hasClass('pieChart')) {
             console.log(res.data);
-            pieChart(res.data, '#chart');
+            try{
+              pieChart(res.data, '#chart');
+            }
+            catch(e){
+              info($chartInfo, 'data is really not right. check the parsed dataset', 'alert-danger');
+              errored = true
+            }
             $parsedResult.html(JSON.stringify(d3.csv.parse(res.data)));
           }
           $csvResult.html(res.data);
-          $chartInfo.empty().removeClass();
+          if (!errored){
+            info($chartInfo, 'done!', 'alert-success');
+          }
           if (res.error){
             info($chartInfo,
               res.error,
