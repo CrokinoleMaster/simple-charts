@@ -1,0 +1,60 @@
+
+extends layout
+
+block content
+    .container
+        .row
+            .col-md-12
+            h1 Help
+                h2 bar chart
+                br
+                blockquote
+                    p bar chart parses the inputted csv into arrays.
+                    p
+                      | you need to enter a sequence of numbers. As long as the there is a value at index 0 of each array, the parser will be able to parse the dataset.
+                    h3 example 1
+                    p this is perfect
+                    pre.
+                      12,32,45,32,22,44
+                    p parsed:
+                    pre.
+                      [[12,32,45,32,22,44]]
+                    h3 example 2
+                    p this still works but it will create an empty element in the arrays
+                    pre.
+                      232,
+                      433,
+                      547,
+                      239,
+                      447,
+                    p parsed:
+                    pre.
+                      [[232,""],[433,""],[547,""],[239,""],[447,""]]
+                    p If you messed up it might still work but the results won"t be great.
+                h2 pie chart
+                br
+                blockquote
+                    p The pie chart uses the d3 csv parser and parses to JSON.
+                    p You need to enter CSV with at least two properties, any extras will be ignored.
+                    p first property is the label, which is a String, second is a number.
+                    h3 example 1
+                    p this is perfect
+                    pre.
+                      name,amount
+                      huarui,567
+                      joe,133
+                      bob,443
+                      someone,123
+                    p parsed:
+                    pre.
+                      [{"name":"huarui","amount":"567"},{"name":"joe","amount":"133"},{"name":"bob","amount":"443"},{"name":"someone","amount":"123"}]
+                    h3 example 2
+                    p this works too. but extra properties are ignored
+                    pre.
+                      fruit, amount, color
+                      apples, 213, red
+                      oranges, 423, orange
+                      bananas, 534, yellow
+                    p parsed:
+                    pre.
+                      [{"fruit":"apples"," amount":" 213"," color":" red"},{"fruit":"oranges"," amount":" 423"," color":" orange"},{"fruit":"bananas"," amount":" 534"," color":" yellow "}]

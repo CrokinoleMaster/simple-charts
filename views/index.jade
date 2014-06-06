@@ -3,12 +3,14 @@ extends layout
 block content
     .container
         .row
-            if (!user)
-                a(href='/login') Login
-                br
-                a(href='/register') Register
-            if (user)
-                h1 #{user.username}, welcome
+            .col-lg-offset-4
+            .col-lg-4
+                if (!user)
+                    h1 Simple Charts
+                    a.btn.btn-primary(href='/login') Login
+                    a.btn.btn-success(href='/register') Register
+                if (user)
+                    h1 #{user.username}, welcome
         if (user)
             .row
                 .col-md-6
@@ -19,6 +21,7 @@ block content
                                     li.list-group-item
                                         p=data.name
                                         button.barChart.btn-primary bar chart
+                                        button.pieChart.btn-primary pie chart
                                         button.remove-btn.btn-primary remove
                             if (charts.length === 0)
                                 p No Data

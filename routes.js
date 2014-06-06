@@ -14,6 +14,14 @@ module.exports = function (app) {
     }
   });
 
+  app.get('/help', function(req, res) {
+    if (req.user){
+      res.render('help', {user: req.user});
+    } else {
+      res.redirect('/');
+    }
+  })
+
   app.get('/register', function(req, res){
     res.render('register');
   })

@@ -1,7 +1,7 @@
 !!! 5
 html
     head
-        title= title
+        title Simple Charts
         meta(charset='utf-8')
         meta(name='viewport', content='width=device-width, initial-scale=1.0')
         meta(name='description', content='cs494 final project')
@@ -17,10 +17,12 @@ html
             #sidebar-wrapper
                 ul.sidebar-nav
                     li.sidebar-brand
-                        a(href='#') Graphit
+                        a(href='#') Simple Charts
                     li
                         a(href='/') Home
                     if (user)
+                        li
+                            a(href='/help') Help
                         li
                             a(href='/logout') Logout
 
