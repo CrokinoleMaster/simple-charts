@@ -41,7 +41,7 @@ passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
 // mongo config
-var mongo = "mongodb://huarui:1234@kahana.mongohq.com:10038/app26059808"
+var mongo = "mongodb://huarui:1234@kahana.mongohq.com:10038/app26099224";
 mongoose.connect(mongo);
 
 require('./routes')(app);
