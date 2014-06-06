@@ -7,6 +7,10 @@ block content
             .col-lg-4
                 if (!user)
                     h1 Simple Charts
+                    .alert.alert-info
+                        p you can use the example account to see examples
+                        p username: example
+                        p password: password
                     a.btn.btn-primary(href='/login') Login
                     a.btn.btn-success(href='/register') Register
                 if (user)
