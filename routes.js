@@ -85,7 +85,8 @@ module.exports = function (app) {
 
   app.post('/projects/new', function(req, res) {
     if (req.user){
-      new Chart({ username: req.user.username, name: req.body.name, data: req.body.data })
+      new Chart({ username: req.user.username, name: req.body.name,
+        data: req.body.data, index: req.user.username + req.body.name})
       .save(function(err, entr) {
         if (err){
           console.log(err);
