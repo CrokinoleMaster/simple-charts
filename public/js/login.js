@@ -7,6 +7,7 @@ $(function() {
     e.preventDefault();
     $info.removeClass();
     $info.html('please wait').addClass('alert alert-info');
+    $loginBtn.attr('disabled', 'disabled');
     $.ajax({
       type: 'POST',
       url: '/login',
@@ -16,6 +17,7 @@ $(function() {
         if (d.error){
           $info.removeClass();
           $info.html(d.error).addClass('alert alert-danger');
+          $loginBtn.removeAttr('disabled');
         } else {
           console.log(d);
           $info.removeClass();
@@ -26,6 +28,7 @@ $(function() {
       error: function(e){
         $info.removeClass();
         $info.html(e.responseText).addClass('alert alert-danger');
+        $loginBtn.removeAttr('disabled');
       }
     });
   });

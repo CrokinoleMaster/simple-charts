@@ -10,6 +10,7 @@ $(function() {
     if (nameLength >= 4 && pwLength >= 8){
       $info.removeClass();
       $info.html('please wait').addClass('alert alert-info');
+      $registerBtn.attr('disabled', 'disabled');
       $.ajax({
         type: 'POST',
         url: '/register',
@@ -19,6 +20,7 @@ $(function() {
           if (d.error){
             $info.removeClass();
             $info.html(d.error).addClass('alert alert-danger');
+            $registerBtn.removeAttr('disabled');
           } else {
             console.log(d);
             $info.removeClass();
@@ -29,6 +31,7 @@ $(function() {
         error: function(e){
           $info.removeClass();
           $info.html(e.responseText).addClass('alert alert-danger');
+          $registerBtn.removeAttr('disabled');
         }
       });
     } else {

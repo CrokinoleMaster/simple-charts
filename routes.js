@@ -23,7 +23,11 @@ module.exports = function (app) {
   })
 
   app.get('/register', function(req, res){
-    res.render('register');
+    if (req.user) {
+      res.redirect('/');
+    } else {
+      res.render('register');
+    }
   })
 
   app.post('/register', function(req, res) {
@@ -50,7 +54,11 @@ module.exports = function (app) {
   });
 
   app.get('/login', function(req, res) {
+    if (req.user) {
+      res.redirect('/');
+    } else {
       res.render('login', { user : req.user });
+    }
   });
 
   app.post('/login', function(req, res) {
