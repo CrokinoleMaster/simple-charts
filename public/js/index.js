@@ -2,7 +2,7 @@ function info(div, text, type) {
   div.empty()
     .removeClass()
     .addClass('alert '+type)
-    .html(text);
+    .text(text);
 }
 
 function pieChart(data, div) {
@@ -221,7 +221,7 @@ $(function(){
               info($chartInfo, 'data is really not right. check the parsed dataset', 'alert-danger');
               errored = true;
             }
-            $parsedResult.html(JSON.stringify(new CSV(res.data).parse()));
+            $parsedResult.text(JSON.stringify(new CSV(res.data).parse()));
           } else if ($this.hasClass('pieChart')) {
             console.log(res.data);
             try{
@@ -231,9 +231,9 @@ $(function(){
               info($chartInfo, 'data is really not right. check the parsed dataset', 'alert-danger');
               errored = true
             }
-            $parsedResult.html(JSON.stringify(d3.csv.parse(res.data)));
+            $parsedResult.text(JSON.stringify(d3.csv.parse(res.data)));
           }
-          $csvResult.html(res.data);
+          $csvResult.text(res.data);
           if (!errored){
             info($chartInfo, 'done!', 'alert-success');
           }
